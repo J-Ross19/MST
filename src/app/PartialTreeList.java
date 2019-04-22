@@ -8,6 +8,7 @@ import structures.Arc;
 import structures.Graph;
 import structures.PartialTree;
 import structures.Vertex;
+import structures.Vertex.Neighbor;
 
 /**
  * Stores partial trees in a circular linked list
@@ -96,18 +97,29 @@ public class PartialTreeList implements Iterable<PartialTree> {
 			// ???????
 			
 			// Create a priority queue (heap) P and associate it with T.
-			structures.MinHeap<Arc> tempHeap = new structures.MinHeap<>();
+			//tempTree.getArcs();
 			
 			// Insert all of the arcs (edges) connected to v into P. 
-			
+			for (Neighbor currentNeighbor = currentVertex.neighbors; 
+					currentNeighbor != null; currentNeighbor = currentNeighbor.next) {
+				
+				// Get reference to MinHeap of PartialTree
+				tempTree.getArcs().insert( // Create and insert new arc
+						new Arc(currentVertex, currentNeighbor.vertex, currentNeighbor.weight));
+				
+				// Note: The lower the weight on an arc, the higher its priority.
+				
+			}
 			
 			// The lower the weight on an arc, the higher its priority.
 			
 			// Add the partial tree T to the list L.
+			listOfPartialTrees.append(tempTree);
 		}
 
 		return listOfPartialTrees;
 	}
+	
 	
 	/**
 	 * Executes the algorithm on a graph, starting with the initial partial tree list
