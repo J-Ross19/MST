@@ -84,10 +84,29 @@ public class PartialTreeList implements Iterable<PartialTree> {
 	 * @return The initial partial tree list
 	 */
 	public static PartialTreeList initialize(Graph graph) {
-	
-		/* COMPLETE THIS METHOD */
+		//Create an empty list L of partial trees.
+		PartialTreeList listOfPartialTrees = new PartialTreeList();
 		
-		return null;
+		// Separately for each vertex v in the graph:
+		for (Vertex currentVertex : graph.vertices) {
+			// Create a partial tree T containing only v.
+			PartialTree tempTree = new PartialTree(currentVertex);
+			
+			// Mark v as belonging to T (this will be implemented in a particular way in the code).
+			// ???????
+			
+			// Create a priority queue (heap) P and associate it with T.
+			structures.MinHeap<Arc> tempHeap = new structures.MinHeap<>();
+			
+			// Insert all of the arcs (edges) connected to v into P. 
+			
+			
+			// The lower the weight on an arc, the higher its priority.
+			
+			// Add the partial tree T to the list L.
+		}
+
+		return listOfPartialTrees;
 	}
 	
 	/**
