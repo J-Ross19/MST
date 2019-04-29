@@ -94,7 +94,7 @@ public class PartialTreeList implements Iterable<PartialTree> {
 			PartialTree tempTree = new PartialTree(currentVertex);
 			
 			// Mark v as belonging to T (this will be implemented in a particular way in the code).
-			// ???????
+			currentVertex.parent = currentVertex;
 			
 			// Create a priority queue (heap) P and associate it with T.
 			//tempTree.getArcs();
@@ -110,9 +110,7 @@ public class PartialTreeList implements Iterable<PartialTree> {
 				// Note: The lower the weight on an arc, the higher its priority.
 				
 			}
-			
-			// The lower the weight on an arc, the higher its priority.
-			
+						
 			// Add the partial tree T to the list L.
 			listOfPartialTrees.append(tempTree);
 		}
@@ -130,10 +128,43 @@ public class PartialTreeList implements Iterable<PartialTree> {
 	 */
 	public static ArrayList<Arc> execute(PartialTreeList ptlist) {
 		
-		/* COMPLETE THIS METHOD */
+		
+		ArrayList<Arc> minimumSpanningTree = new ArrayList<Arc>();
 
-		return null;
+		while (ptlist.size > 1) {
+
+			PartialTree currentTree = ptlist.remove();
+			
+			// Set nextArc to highest priority arc where the destination vertex is not already in the MST
+			Arc nextArc = currentTree.getArcs().deleteMin();
+			
+		
+			while (nextArc.getv1().getRoot() == nextArc.getv2().getRoot()) { // Check if arcs are in same tree already
+				nextArc = currentTree.getArcs().isEmpty() ? null : currentTree.getArcs().deleteMin();
+			}
+
+			if (nextArc != null) {
+				minimumSpanningTree.add(nextArc);
+				// Remove and merge to V2
+				PartialTree treeRemoved = null;
+				try {
+					treeRemoved = ptlist.removeTreeContaining(nextArc.getv2());
+				} catch (NoSuchElementException e) {
+					
+				}
+				currentTree.merge(treeRemoved);
+				
+			}
+			
+			ptlist.append(currentTree);
+			
+			
+
+		}
+		
+		return minimumSpanningTree;
 	}
+	
 	
     /**
      * Removes the tree that is at the front of the list.
@@ -166,11 +197,33 @@ public class PartialTreeList implements Iterable<PartialTree> {
      * @throws NoSuchElementException If there is no matching tree
      */
     public PartialTree removeTreeContaining(Vertex vertex) 
-    throws NoSuchElementException {
-    		/* COMPLETE THIS METHOD */
+    		throws NoSuchElementException {
+    	if (vertex == null || size <= 0) {
+    		throw new NoSuchElementException("Unable to perform operation");
+    	}
     	
-    		return null;
-     }
+    	if (rear == null) {
+    		throw new NoSuchElementException("list is empty");
+    	}
+    	
+    	Node prev = rear;
+    	Node current = rear.next;
+    	
+		
+    	while (rear != current && current.tree.getRoot() != vertex.getRoot()) {
+    		prev = current;
+    		current = current.next;
+    	} 
+    	
+    	// Last element
+    	if (current == rear) {
+    		rear = rear.next;
+    	}
+       	prev.next = current.next;
+    	
+    	size--;
+    	return current.tree;
+    }
     
     /**
      * Gives the number of trees in this list
