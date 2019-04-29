@@ -143,18 +143,18 @@ public class PartialTreeList implements Iterable<PartialTree> {
 				nextArc = currentTree.getArcs().isEmpty() ? null : currentTree.getArcs().deleteMin();
 			}
 
+			PartialTree treeRemoved = null;
+			
 			if (nextArc != null) {
 				minimumSpanningTree.add(nextArc);
-				// Remove and merge to V2
-				PartialTree treeRemoved = null;
-				try {
-					treeRemoved = ptlist.removeTreeContaining(nextArc.getv2());
-				} catch (NoSuchElementException e) {
-					
-				}
-				currentTree.merge(treeRemoved);
 				
+				treeRemoved = ptlist.removeTreeContaining(nextArc.getv2());
+
 			}
+			
+			currentTree.merge(treeRemoved);
+				
+			
 			
 			ptlist.append(currentTree);
 			
@@ -217,7 +217,7 @@ public class PartialTreeList implements Iterable<PartialTree> {
     	
     	// Last element
     	if (current == rear) {
-    		rear = rear.next;
+    		rear = prev;
     	}
        	prev.next = current.next;
     	
