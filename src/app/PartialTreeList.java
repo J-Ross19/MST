@@ -152,6 +152,7 @@ public class PartialTreeList implements Iterable<PartialTree> {
 
 			}
 			
+			System.out.println("s  " + treeRemoved);
 			currentTree.merge(treeRemoved);
 				
 			
@@ -203,11 +204,24 @@ public class PartialTreeList implements Iterable<PartialTree> {
     	}
     	
     	if (rear == null) {
-    		throw new NoSuchElementException("list is empty");
+    		throw new NoSuchElementException("List is empty");
     	}
+    	
+    	
     	
     	Node prev = rear;
     	Node current = rear.next;
+    	
+    	// Case where there is only one node
+    	if (current == null) {
+    		if (prev.tree.getRoot() == vertex.getRoot()) {
+    			rear = null;
+    			return prev.tree;
+    		}
+    		else {
+    			throw new NoSuchElementException("You broke my brain. Congrats");
+    		}
+    	}
     	
 		
     	while (rear != current && current.tree.getRoot() != vertex.getRoot()) {
@@ -217,6 +231,10 @@ public class PartialTreeList implements Iterable<PartialTree> {
     	
     	// Last element
     	if (current == rear) {
+    		// Item not found in list
+    		if (current.tree.getRoot() != vertex.getRoot()) {
+    			throw new NoSuchElementException("Item not found");
+    		}
     		rear = prev;
     	}
        	prev.next = current.next;
@@ -276,5 +294,4 @@ public class PartialTreeList implements Iterable<PartialTree> {
     	
     }
 }
-
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import structures.*;
+import app.*;
 
 public class Driver {
 
@@ -12,11 +13,9 @@ public class Driver {
 		ArrayList<String> fileNames = new ArrayList<String>();
 		fileNames.add("graph1.txt");
 		fileNames.add("graph2.txt");
-		fileNames.add("manyNodesfewEdges.txt");
-		fileNames.add("manyNodesmanyEdges.txt");
 		fileNames.add("zeroNodes.txt");
 		fileNames.add("oneNode.txt");
-		fileNames.add("twoNodes.txt");
+
 
 
 
